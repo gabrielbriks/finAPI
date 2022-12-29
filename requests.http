@@ -1,0 +1,11 @@
+### 
+POST http://localhost:3333/account 
+content-type: application/json
+
+{
+    "cpf": "555555555",
+    "name": "Gabriel"
+}
+
+### 
+GET http://localhost:3333/statement/555555555
