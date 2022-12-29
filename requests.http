@@ -50,3 +50,8 @@ content-type: application/json
 DELETE http://localhost:3333/account
 cpf: 555555555
 content-type: application/json
+
+### Get Balance Account
+GET http://localhost:3333/balance
+cpf: 555555555
+content-type: application/json
