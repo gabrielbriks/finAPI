@@ -1,6 +1,7 @@
 {
   "name": "finAPI",
   "version": "1.0.0",
+  "author": "Gabriel Morais",
   "main": "index.js",
   "license": "MIT",
   "scripts": {
