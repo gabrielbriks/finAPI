@@ -7,5 +7,25 @@ content-type: application/json
     "name": "Gabriel"
 }
 
-### 
-GET http://localhost:3333/statement/555555555
+### Extrato
+GET http://localhost:3333/statement
+cpf: 555555555
+
+
+### Depoosito
+POST http://localhost:3333/deposit
+cpf: 555555555
+
+{
+    "description": "Deposito 1",
+    "amount": 10.00
+}
+
+### SAQUE
+POST http://localhost:3333/withdraw
+cpf: 555555555
+
+{
+    "description": "Deposito 1",
+    "amount": 10.00
+}
