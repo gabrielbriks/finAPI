@@ -1,4 +1,4 @@
-# Construção básica de api para praticar conceitos 
+# Construção de api básica para praticar conceitos 
 
 ## Aprendizados
 
