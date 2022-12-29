@@ -31,6 +31,18 @@ function verifyIfExistAccountCPF(req, res, next) {
   return next()
 }
 
+function getBalance(statement) {
+  const balance = statement.reduce((acc, operation) => {
+    if (operation.type === 'credit') {
+      return acc + operation.amount
+    } else {
+      return acc - operation.amount
+    }
+  }, 0)
+
+  return balance
+}
+
 /**
  * cpf: string
  * name: string
@@ -78,8 +90,8 @@ app.post('/deposit', verifyIfExistAccountCPF, (req, res) => {
   const { description, amount } = req.body
 
   const statementOperation = {
-    description,
-    amount,
+    description: description,
+    amount: amount,
     created_at: new Date(),
     type: 'credit'
   }
@@ -91,18 +103,58 @@ app.post('/deposit', verifyIfExistAccountCPF, (req, res) => {
 
 app.post('/withdraw', verifyIfExistAccountCPF, (req, res) => {
   const { customer } = req
-  const { description, amount } = req.body
+  const { amount } = req.body
+
+  console.log('customer-withdraw : ' + customer)
+
+  const balance = getBalance(customer.statement)
+
+  if (balance < amount) {
+    return res.status(400).json({ error: 'Insufficient balance' })
+  }
 
   const statementOperation = {
-    description,
-    amount,
+    amount: amount,
     created_at: new Date(),
-    type: 'credit'
+    type: 'debit'
   }
 
   customer.statement.push(statementOperation)
 
   return res.status(201).send()
+})
+
+app.get('/statement/date', verifyIfExistAccountCPF, (req, res) => {
+  const { customer } = req
+  const date = req.query
+
+  //atribuindo 00h para levar em conta somente o dia inteiro
+  const dateFormat = new Date(date + '00:00')
+
+  const statements = customer.statement.filter(statement => {
+    statement.created_at.toDateString() === dateFormat.toDateString()
+  })
+
+  return res.json(customer.statement)
+})
+
+app.put('/account', verifyIfExistAccountCPF, (req, res) => {
+  const { customer } = req
+  const { name } = req.body
+
+  customer.name = name
+
+  return res.json(customer)
+})
+
+app.delete('/account', verifyIfExistAccountCPF, (req, res) => {
+  const { customer } = req
+  const { name } = req.body
+  const { id } = customer
+
+  customers.splice(customer, 1)
+
+  return res.status(200).json(customers)
 })
 
 app.listen(3333)

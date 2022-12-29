@@ -15,6 +15,7 @@ cpf: 555555555
 ### Depoosito
 POST http://localhost:3333/deposit
 cpf: 555555555
+content-type: application/json
 
 {
     "description": "Deposito 1",
@@ -24,8 +25,28 @@ cpf: 555555555
 ### SAQUE
 POST http://localhost:3333/withdraw
 cpf: 555555555
+content-type: application/json
 
 {
-    "description": "Deposito 1",
-    "amount": 10.00
+    "amount": 11.00
 }
+
+### Statement By Date
+GET http://localhost:3333/statement/date?date=29/12/2022
+cpf: 555555555
+content-type: application/json
+
+
+### Update Account
+PUT http://localhost:3333/account
+cpf: 555555555
+content-type: application/json
+
+{
+    "name": "Juquinha Abreu"
+}
+
+### Delete Account
+DELETE http://localhost:3333/account
+cpf: 555555555
+content-type: application/json
